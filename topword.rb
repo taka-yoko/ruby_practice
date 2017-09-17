@@ -1,11 +1,8 @@
+WORDS = ARGF.read.downcase.scan(/[a-z]+/)
+p WORDS
 dic = Hash.new(0)
-
-while line = ARGF.gets
-  line.downcase!
-  while line.sub!(/[a-z]+/, "")
-    word = $&
-    dic[word] += 1
-  end
+for word in WORDS
+  dic[word] += 1
 end
 
 p dic.sort { |a, b| b[1] <=> a[1] }[0...30]
