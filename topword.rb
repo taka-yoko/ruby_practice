@@ -5,12 +5,18 @@ module Enumerable
 end
 
 class Hash
-  def top_by_value(nth)
-    select { |key, val| yield val }.take_by(nth) { |key, val| -val }
+  def top_by_value(nth, &blk)
+    take_by_value(nth, lambda { |v| -v }, &blk)
   end
   
-  def bottom_by_value(nth)
-    select { |key, val| yield val }.take_by(nth) { |key, val| val }
+  def bottom_by_value(nth, &blk)
+    take_by_value(nth, lambda { |v| v }, &blk)
+  end
+  
+  private
+  
+  def take_by_value(nth, sort_opt)
+    select { |key, val| yield val }.take_by(nth) { |key, val| sort_opt[val] }
   end
 end
 
