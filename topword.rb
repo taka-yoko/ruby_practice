@@ -6,10 +6,12 @@ end
 
 class Hash
   def top_by_value(nth, &blk)
+    blk = lambda { |v| v } unless block_given?
     take_by_value(nth, lambda { |v| -v }, &blk)
   end
   
   def bottom_by_value(nth, &blk)
+    blk = lambda { |v| v } unless block_given?
     take_by_value(nth, lambda { |v| v }, &blk)
   end
   
