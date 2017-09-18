@@ -6,19 +6,23 @@ end
 
 class Hash
   def top_by_value(nth, &blk)
-    blk = lambda { |v| v } unless block_given?
-    take_by_value(nth, lambda { |v| -v }, &blk)
+    blk = opt unless blk
+    take_by_value(nth, opt(false), &blk)
   end
   
   def bottom_by_value(nth, &blk)
-    blk = lambda { |v| v } unless block_given?
-    take_by_value(nth, lambda { |v| v }, &blk)
+    blk = opt unless blk
+    take_by_value(nth, opt, &blk)
   end
   
   private
   
   def take_by_value(nth, sort_opt)
     select { |key, val| yield val }.take_by(nth) { |key, val| sort_opt[val] }
+  end
+  
+  def opt(flag=true)
+    lambda { |v| flag ? v : -v }
   end
 end
 
